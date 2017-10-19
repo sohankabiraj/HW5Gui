@@ -1,26 +1,21 @@
 /**
  * Sohan Kabiraj (sk5gb) 
+ * Sources: https://kodejava.org/how-do-i-move-focus-from-jtextarea-using-tab-key/, https://www.youtube.com/watch?v=22MBsRYuM4Q
  */
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
@@ -30,7 +25,6 @@ import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
-import javax.swing.RowFilter;
 
 public class GUICalc extends JFrame {
 
@@ -234,8 +228,8 @@ public class GUICalc extends JFrame {
 		table.setModel(model);
 		
 		Object[] row = new Object[4];
-		ArrayList<Integer> creditHours = new ArrayList<Integer>();
-		ArrayList<Double> gpas = new ArrayList<Double>(); 		
+		ArrayList<Float> creditHours = new ArrayList<Float>();
+		ArrayList<Float> gpas = new ArrayList<Float>(); 		
 		btnAddButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -280,6 +274,9 @@ public class GUICalc extends JFrame {
 				if (textGrade.getText().equals("F")) {
 					textGPA.setText(String.valueOf(0.000));
 				}
+				if (textGPA.getText().equals("")) {
+					textGPA.setText(String.valueOf(0.000));
+				}
 				
 
 				row[0] = textCreditHours.getText();
@@ -289,9 +286,9 @@ public class GUICalc extends JFrame {
 				
 				model.addRow(row);
 				
-				int getCredit = Integer.parseInt(textCreditHours.getText());
+				float getCredit = Float.parseFloat(textCreditHours.getText());
 				creditHours.add(getCredit);
-				double getGPA = Double.parseDouble(textGPA.getText());
+				float getGPA = Float.parseFloat(textGPA.getText());
 				gpas.add(getGPA);
 				
 				System.out.print(Arrays.toString(creditHours.toArray()));
@@ -331,10 +328,10 @@ public class GUICalc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
-				textCreditHours.setText(model.getValueAt(i, 0).toString());
-				textGPA.setText(model.getValueAt(i, 1).toString());
-				textGrade.setText(model.getValueAt(i, 2).toString());
-				textCourseName.setText(model.getValueAt(i, 3).toString());
+//				textCreditHours.setText(model.getValueAt(i, 0).toString());
+//				textGPA.setText(model.getValueAt(i, 1).toString());
+//				textGrade.setText(model.getValueAt(i, 2).toString());
+//				textCourseName.setText(model.getValueAt(i, 3).toString());
 
 			}
 
@@ -365,17 +362,105 @@ public class GUICalc extends JFrame {
 		btnCalculate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double totalSum = 0.000;
-				double finalSum = 0.000; 
-				double average = 0.000; 
+				float totalSum = 0;
+				float finalSum = 0; 
+				double average = 0; 
 				for (int i = 0; i < creditHours.size(); i++) {
 					totalSum += creditHours.get(i) * gpas.get(i);
 					finalSum += creditHours.get(i);
 				}
-				average = totalSum / finalSum; 
-				lblCurrentGPA.setText(String.valueOf(average).substring(0, 3));
+				average = (totalSum / finalSum); 
+				lblCurrentGPA.setText(String.valueOf(0.0));
+				lblCurrentGPA.setText(String.valueOf(average));
 				System.out.println(average);
 			}
 		});
+		
+		btnAddCredits.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < 15; i++) {
+					model.addRow(row);
+					creditHours.add((float) 0);
+					gpas.add((float)0);
+				}
+			}
+		});
+		
+		textCreditHours.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                        textCreditHours.transferFocusBackward();
+
+                    } else {
+                        textCreditHours.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
+		
+		textGPA.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                    		textGPA.transferFocusBackward();
+
+                    } else {
+                    		textGPA.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
+		
+		textCourseName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                    		textCourseName.transferFocusBackward();
+
+                    } else {
+                    		textCourseName.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
+		
+		textGrade.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                    		textGrade.transferFocusBackward();
+
+                    } else {
+                    		textGrade.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
+		
+		textTargetGPA.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                    		textTargetGPA.transferFocusBackward();
+
+                    } else {
+                    		textTargetGPA.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
 	}
 }
