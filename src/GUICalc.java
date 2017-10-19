@@ -77,7 +77,7 @@ public class GUICalc extends JFrame {
 		
 		JButton btnAddButton = new JButton("Add");
 		
-		JButton btnAddBlank = new JButton("Add 15 Blank");
+		JButton btnAddCredits = new JButton("Add 15 Credits");
 		
 		JButton btnRemoveSelected = new JButton("Remove Selected");
 		
@@ -95,15 +95,15 @@ public class GUICalc extends JFrame {
 		
 		JTextArea textTargetGPA = new JTextArea();
 		
-		JTextArea textCurrentGPA = new JTextArea();
-		
-		JTextArea textRequiredGPA = new JTextArea();
-		
 		JLabel lblGrade = new JLabel("Grade Letter: ");
 		
 		JTextArea textGrade = new JTextArea();
 		
 		JButton btnCalculate = new JButton("Calculate");
+		
+		JLabel lblCurrentGPA = new JLabel("");
+		
+		JLabel lblRequiredGPA = new JLabel("");
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -133,7 +133,7 @@ public class GUICalc extends JFrame {
 									.addGroup(gl_contentPane.createSequentialGroup()
 										.addComponent(btnAddButton)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnAddBlank, GroupLayout.PREFERRED_SIZE, 122, Short.MAX_VALUE)))
+										.addComponent(btnAddCredits, GroupLayout.PREFERRED_SIZE, 122, Short.MAX_VALUE)))
 								.addPreferredGap(ComponentPlacement.RELATED, 17, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addContainerGap()
@@ -162,13 +162,13 @@ public class GUICalc extends JFrame {
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textCurrentGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addComponent(lblCurrentGPA))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblRequiredGpa)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textRequiredGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblRequiredGPA)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -204,7 +204,7 @@ public class GUICalc extends JFrame {
 									.addGap(18)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnAddButton)
-										.addComponent(btnAddBlank))
+										.addComponent(btnAddCredits))
 									.addGap(20)
 									.addComponent(btnRemoveSelected)
 									.addGap(15)
@@ -213,11 +213,11 @@ public class GUICalc extends JFrame {
 							.addGap(27)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel)
-								.addComponent(textCurrentGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblCurrentGPA))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textRequiredGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblRequiredGpa))
+								.addComponent(lblRequiredGpa)
+								.addComponent(lblRequiredGPA))
 							.addGap(108))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btnCalculate)
@@ -235,7 +235,7 @@ public class GUICalc extends JFrame {
 		
 		Object[] row = new Object[4];
 		ArrayList<Integer> creditHours = new ArrayList<Integer>();
-		ArrayList<Float> gpas = new ArrayList<Float>(); 		
+		ArrayList<Double> gpas = new ArrayList<Double>(); 		
 		btnAddButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -291,7 +291,7 @@ public class GUICalc extends JFrame {
 				
 				int getCredit = Integer.parseInt(textCreditHours.getText());
 				creditHours.add(getCredit);
-				float getGPA = Float.parseFloat(textGPA.getText());
+				double getGPA = Double.parseDouble(textGPA.getText());
 				gpas.add(getGPA);
 				
 				System.out.print(Arrays.toString(creditHours.toArray()));
@@ -362,17 +362,20 @@ public class GUICalc extends JFrame {
 				
 			}
 		});
-		
 		btnCalculate.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				double totalSum = 0.000;
+				double finalSum = 0.000; 
+				double average = 0.000; 
+				for (int i = 0; i < creditHours.size(); i++) {
+					totalSum += creditHours.get(i) * gpas.get(i);
+					finalSum += creditHours.get(i);
+				}
+				average = totalSum / finalSum; 
+				lblCurrentGPA.setText(String.valueOf(average).substring(0, 3));
+				System.out.println(average);
 			}
 		});
-	}
-	
-	public static void getData() {
-		
 	}
 }
