@@ -3,6 +3,7 @@
  * Sources: https://kodejava.org/how-do-i-move-focus-from-jtextarea-using-tab-key/, https://www.youtube.com/watch?v=22MBsRYuM4Q
  */
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,9 +28,10 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 public class GUICalc extends JFrame {
-
+	
 	private JPanel contentPane;
 	private JTable table;
+	private float average; 
 
 	/**
 	 * Launch the application.
@@ -48,7 +50,8 @@ public class GUICalc extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame. This also created all the buttons and such that I need. I made separate buttons for each function. 
+	 * I assumed that everything will have its own buttons so if the user wants to calculate something then the user can press the specified button
 	 */
 	public GUICalc() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,64 +96,78 @@ public class GUICalc extends JFrame {
 		
 		JTextArea textGrade = new JTextArea();
 		
-		JButton btnCalculate = new JButton("Calculate");
+		JButton btnCalculate = new JButton("Calculate Current G.P.A. ");
 		
 		JLabel lblCurrentGPA = new JLabel("");
 		
+		JButton btnCalculateRequiredGpa = new JButton("Calculate Required G.P.A. ");
+		
 		JLabel lblRequiredGPA = new JLabel("");
 		
+/**
+ * This is self made code from Eclipse that groups everything onto the pane. 
+ */
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 											.addGroup(gl_contentPane.createSequentialGroup()
-												.addGap(56)
-												.addComponent(lblGpa))
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+													.addGroup(gl_contentPane.createSequentialGroup()
+														.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+															.addGroup(gl_contentPane.createSequentialGroup()
+																.addGap(56)
+																.addComponent(lblGpa))
+															.addGroup(gl_contentPane.createSequentialGroup()
+																.addContainerGap()
+																.addComponent(lblCreditHours)))
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+															.addComponent(textCreditHours, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+															.addComponent(textTargetGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+															.addComponent(textCourseName, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+													.addGroup(gl_contentPane.createSequentialGroup()
+														.addComponent(btnAddButton)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(btnAddCredits, GroupLayout.PREFERRED_SIZE, 123, Short.MAX_VALUE)))
+												.addPreferredGap(ComponentPlacement.RELATED, 16, GroupLayout.PREFERRED_SIZE))
 											.addGroup(gl_contentPane.createSequentialGroup()
 												.addContainerGap()
-												.addComponent(lblCreditHours))
+												.addComponent(lblTargetGpa, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED))
 											.addGroup(gl_contentPane.createSequentialGroup()
 												.addContainerGap()
-												.addComponent(lblGpa_1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(textCreditHours, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-											.addComponent(textGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-											.addComponent(textTargetGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-											.addComponent(textCourseName, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+												.addComponent(lblGpa_1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(textGPA, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED))
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addContainerGap()
+												.addComponent(lblCourseName, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addContainerGap()
+											.addComponent(lblGrade, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(textGrade, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+											.addGap(25)))
 									.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(btnAddButton)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnAddCredits, GroupLayout.PREFERRED_SIZE, 122, Short.MAX_VALUE)))
-								.addPreferredGap(ComponentPlacement.RELATED, 17, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(lblTargetGpa, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.RELATED))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(lblGrade, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(textGrade, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(lblCourseName, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.RELATED))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(btnRemoveSelected, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED))
+										.addComponent(btnRemoveSelected, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnRemoveAll, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)))
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(btnCalculate)
 								.addPreferredGap(ComponentPlacement.RELATED)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnRemoveAll, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnCalculateRequiredGpa, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
@@ -161,7 +178,7 @@ public class GUICalc extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblRequiredGpa)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(18)
 							.addComponent(lblRequiredGPA)))
 					.addContainerGap())
 		);
@@ -169,67 +186,81 @@ public class GUICalc extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 377, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblGpa)
+							.addGap(31)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 377, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblGpa)
-									.addGap(31)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblCreditHours)
-										.addComponent(textCreditHours, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(13)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblGpa_1)
-										.addComponent(textGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblGrade)
-										.addComponent(textGrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(14)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblCourseName)
-										.addComponent(textCourseName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(14)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblTargetGpa)
-										.addComponent(textTargetGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(18)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(btnAddButton)
-										.addComponent(btnAddCredits))
-									.addGap(20)
-									.addComponent(btnRemoveSelected)
-									.addGap(15)
-									.addComponent(btnRemoveAll)
-									.addGap(51)))
-							.addGap(27)
+								.addComponent(lblCreditHours)
+								.addComponent(textCreditHours, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel)
-								.addComponent(lblCurrentGPA))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(lblGrade)
+								.addComponent(textGrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(14)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblRequiredGpa)
-								.addComponent(lblRequiredGPA))
-							.addGap(108))
-						.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(textGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGpa_1))
+							.addGap(14)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblCourseName)
+								.addComponent(textCourseName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(14)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTargetGpa)
+								.addComponent(textTargetGPA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnAddButton)
+								.addComponent(btnAddCredits))
+							.addGap(7)
+							.addComponent(btnRemoveSelected)
+							.addGap(3)
+							.addComponent(btnRemoveAll)
+							.addGap(5)
 							.addComponent(btnCalculate)
-							.addGap(183))))
+							.addGap(7)
+							.addComponent(btnCalculateRequiredGpa)
+							.addGap(6)))
+					.addGap(27)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(lblCurrentGPA))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblRequiredGpa)
+						.addComponent(lblRequiredGPA))
+					.addGap(14))
 		);
-		
+		/**
+		 * I decided to use a JTable because it is aesthetically pleasing and more user friendly. 
+		 */
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
+		table.setBackground(Color.yellow);
 		
+		/**
+		 * This creates the data model for the JTable so it separates everything by column. 
+		 */
 		Object[] columns = {"Credit Hours", "G.P.A", "Grade", "Course Name"};
 		DefaultTableModel model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);
 		table.setModel(model);
-		
+		/**
+		 * This creates the rows and all the arraylists needed in order to do the calculations 
+		 */
 		Object[] row = new Object[4];
 		ArrayList<Float> creditHours = new ArrayList<Float>();
 		ArrayList<Float> gpas = new ArrayList<Float>(); 		
+		ArrayList<Float> totalBlank = new ArrayList<Float>(); 
+		ArrayList<Float> totalTaken = new ArrayList<Float>();
+		/**
+		 * This button is for when the Add button is pressed. If a letter grade is entered, then it sets the GPA to the corresponding 
+		 * GPA. It tests for if the gpa entered is empty and makes it null so that we can skip the calculation at a later time. 
+		 * Parsing all of the textaarea inputs and adding them to arraylists. 
+		 */
 		btnAddButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -274,28 +305,51 @@ public class GUICalc extends JFrame {
 				if (textGrade.getText().equals("F")) {
 					textGPA.setText(String.valueOf(0.000));
 				}
-				if (textGPA.getText().equals("")) {
-					textGPA.setText(String.valueOf(0.000));
+
+				if (textCreditHours.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(contentPane, "You must have credit hours entered.");
+				}
+				else {
+					row[0] = textCreditHours.getText();
+					row[1] = textGPA.getText();
+					row[2] = textGrade.getText();
+					row[3] = textCourseName.getText();
+					
+					model.addRow(row);
 				}
 				
-
-				row[0] = textCreditHours.getText();
-				row[1] = textGPA.getText();
-				row[2] = textGrade.getText();
-				row[3] = textCourseName.getText();
 				
-				model.addRow(row);
+				if(textGPA.getText().isEmpty()) {
+					float getBlankCredits = Float.parseFloat(textCreditHours.getText());
+					totalBlank.add(getBlankCredits);
+					gpas.add(null);
+				}
+				else {
+					float getTaken = Float.parseFloat(textCreditHours.getText());
+					totalTaken.add(getTaken); 
+				}
+				
 				
 				float getCredit = Float.parseFloat(textCreditHours.getText());
 				creditHours.add(getCredit);
-				float getGPA = Float.parseFloat(textGPA.getText());
-				gpas.add(getGPA);
+				if(textGPA.getText().isEmpty()) {
+					
+				}
+				else {
+					float getGPA = Float.parseFloat(textGPA.getText());
+					gpas.add(getGPA);
+				}
 				
-				System.out.print(Arrays.toString(creditHours.toArray()));
-				System.out.println(Arrays.toString(gpas.toArray()));
+				
+				textCourseName.setText("");
+				textCreditHours.setText("");
+				textGPA.setText("");
+				textGrade.setText("");
 			}
 		});
-		
+		/**
+		 * Allows you to select a row in the actual JTable and then press Remove Selected to delete that specific element. 
+		 */
 		btnRemoveSelected.addActionListener(new ActionListener() {
 			
 			@Override
@@ -311,27 +365,31 @@ public class GUICalc extends JFrame {
 				}
 			}
 		});
-		
+		/**
+		 * Removes everything from the JTable and from all the arraylists 
+		 */
 		btnRemoveAll.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (int i = model.getRowCount() - 1; i >= 0; i--) {
-					model.removeRow(i);
-					creditHours.remove(i);
-					gpas.remove(i);
+				int thecount = model.getRowCount(); 
+				for(int i = 0; i < thecount; i++) {
+					model.removeRow(0);
+					creditHours.remove(0);
+					gpas.remove(0);
 				}
 			}
 		});
+		/**
+		 * This is the mouse listener to allow the user to select the row in order to remove it 
+		 */
+		
 		table.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
-//				textCreditHours.setText(model.getValueAt(i, 0).toString());
-//				textGPA.setText(model.getValueAt(i, 1).toString());
-//				textGrade.setText(model.getValueAt(i, 2).toString());
-//				textCourseName.setText(model.getValueAt(i, 3).toString());
+				
 
 			}
 
@@ -359,35 +417,34 @@ public class GUICalc extends JFrame {
 				
 			}
 		});
+		
+		/**
+		 * When the Calculate button is pressed, it calculates the current GPA. I separated current GPA and required GPA. 
+		 * This skips empty gpa indexes. Sets the text label to the GPA value 
+		 */
 		btnCalculate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				float totalSum = 0;
 				float finalSum = 0; 
-				double average = 0; 
 				for (int i = 0; i < creditHours.size(); i++) {
-					totalSum += creditHours.get(i) * gpas.get(i);
-					finalSum += creditHours.get(i);
+					if(gpas.get(i) == null) {
+	
+					}
+					else {
+						totalSum += creditHours.get(i) * gpas.get(i);
+						finalSum += creditHours.get(i);	
+					}
+					
 				}
 				average = (totalSum / finalSum); 
-				lblCurrentGPA.setText(String.valueOf(0.0));
 				lblCurrentGPA.setText(String.valueOf(average));
-				System.out.println(average);
 			}
 		});
-		
-		btnAddCredits.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < 15; i++) {
-					model.addRow(row);
-					creditHours.add((float) 0);
-					gpas.add((float)0);
-				}
-			}
-		});
-		
+		/**
+		 * All of these key listeners add the functionality to use the tab key to go to the next textarea. 
+		 * I mainly made this because each time you press tab it inserts a tab in the given textarea which throws an error when you want to calculate 
+		 */
 		textCreditHours.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -462,5 +519,58 @@ public class GUICalc extends JFrame {
                 }
             }
         });
+		/**
+		 * This calculates the required GPA when a blank row is added. Messages boxes are shown for over 4.0 gpa which isnt possible 
+		 * and under 2.0 which means the student can take it easy 
+		 */
+		btnCalculateRequiredGpa.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+				float creditSum = 0; 
+				float blankSum = 0; 
+				float takenSum = 0; 
+				float targetInput = Float.parseFloat(textTargetGPA.getText());
+				for (float item : creditHours) {
+					creditSum += item;
+				}
+				for (float items : totalBlank) {
+					blankSum += items;
+				}
+				for (float i : totalTaken) {
+					takenSum += i; 
+				}
+				float theTarget = (float) (targetInput * (takenSum + blankSum) - average*takenSum) / blankSum;
+				lblRequiredGPA.setText(String.valueOf(theTarget));
+				
+				if (theTarget > 4.0) {
+					JOptionPane.showMessageDialog(contentPane, "This isn't possible! Try adding more credits.");
+				}
+				if (theTarget < 2.0) {
+					JOptionPane.showMessageDialog(contentPane, "You should take fewer credits if you wish.");
+				}
+			}
+		});
+		/**
+		 * This adds 15 blank credits. I assumed that the instructions didn't mean 15 single blocks with 1 credits so I made it 
+		 * more practical and added 5 blocks that are each 3 credit courses. 
+		 */
+		
+		btnAddCredits.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < 5; i++) {
+					row[0] = 3;
+					row[1] = ""; 
+					row[2] = ""; 
+					model.addRow(row);
+					creditHours.add((float) 3);
+					gpas.add(null);
+					totalBlank.add((float)3);
+				}
+			}
+		});
 	}
 }
